@@ -50,7 +50,34 @@ module.exports = function(grunt) {
 			data: {
 				files: ['source/_patterns/**/*.json', 'source/_data/*.json'],
 				tasks: ['default']
-			}
+			},
+			livereload: {
+        options: {
+          livereload: '<%= connect.options.livereload %>'
+        },
+        files: [
+          'public/index.html',
+          'public/patterns/*/*.html',
+          'public/css/*.css',
+          'public/js/*.js'
+        ]
+      }
+		},
+		connect: {
+			options: {
+        port: 9000,
+        livereload: 35729,
+        // Change this to '0.0.0.0' to access the server from outside
+        hostname: 'localhost'
+      },
+      livereload: {
+        options: {
+          open: true,
+          base: [
+              'public'
+          ]
+        }
+      },
 		},
 		sass: {
 			build: {
@@ -82,6 +109,9 @@ module.exports = function(grunt) {
 
 	//if you choose to use scss, or any preprocessor, you can add it here
 	grunt.registerTask('default', ['clean', 'concat', 'patternlab', /*'sass',*/ 'copy']);
+
+	// serve the project
+	grunt.registerTask('serve', ['default', 'connect:livereload', 'watch']);
 
 	//travis CI task
 	grunt.registerTask('travis', ['clean', 'concat', 'patternlab', /*'sass',*/ 'copy', 'qunit'])
