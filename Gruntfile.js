@@ -4,6 +4,14 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		clean: ['./public/patterns'],
+
+    patternlab: {
+      options: {
+        source: './source',
+        dest: './public'
+      }
+    },
+
 		concat: {
 			options: {
 				stripBanners: true,
@@ -46,16 +54,24 @@ module.exports = function(grunt) {
 			mustache: {
 				files: ['source/_patterns/**/*.mustache'],
 				tasks: ['default'],
-				options: { livereload: '<%= connect.options.livereload %>', spawn: false }
+				options: { 
+          livereload: '<%= connect.options.livereload %>',
+          spawn: false 
+        }
 			},
 			data: {
 				files: ['source/_patterns/**/*.json', 'source/_data/*.json'],
-				tasks: ['default']
+				tasks: ['default'],
+        options: {
+          livereload: '<%= connect.options.livereload %>',
+          spawn: false
+        },
 			},
 			livereload: {
-        // options: {
-        //   livereload: '<%= connect.options.livereload %>'
-        // },
+        options: {
+          livereload: '<%= connect.options.livereload %>',
+          spawn: false
+        },
         files: [
           'public/index.html',
           'public/patterns/*/*.html',

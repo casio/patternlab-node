@@ -54,14 +54,19 @@ var oPatternItem = function(){
 
 var mustache = require('./lib/Mustache/mustache.js');
 
-module.exports = function(grunt) {	
+module.exports = function(grunt) {
+
 	grunt.registerTask('patternlab', 'create design systems with atomic design', function(arg) {
+		var options = this.options({
+			src: './source',
+			dest: './public'
+		});
 
 		var patternlab = {};
-		patternlab.data = grunt.file.readJSON('./source/_data/data.json');
-		patternlab.listitems = grunt.file.readJSON('./source/_data/listitems.json');
-		patternlab.header = grunt.file.read('./source/_patternlab-files/pattern-header-footer/header.html');
-		patternlab.footer = grunt.file.read('./source/_patternlab-files/pattern-header-footer/footer.html');
+		patternlab.data = grunt.file.readJSON(options.src + '/_data/data.json');
+		patternlab.listitems = grunt.file.readJSON(options.src + '/_data/listitems.json');
+		patternlab.header = grunt.file.read(options.src + '/_patternlab-files/pattern-header-footer/header.html');
+		patternlab.footer = grunt.file.read(options.src + '/_patternlab-files/pattern-header-footer/footer.html');
 		patternlab.patterns = [];
 		patternlab.patternIndex = [];
 		patternlab.partials = {};
@@ -70,7 +75,7 @@ module.exports = function(grunt) {
 		patternlab.patternPaths = {};
 		patternlab.viewAllPaths = {};
 
-		grunt.file.recurse('./source/_patterns', function(abspath, rootdir, subdir, filename){
+		grunt.file.recurse(options.src + '/_patterns', function(abspath, rootdir, subdir, filename){
 			//check if the pattern already exists.  
 			var patternName = filename.substring(0, filename.indexOf('.'));
 			var patternIndex = patternlab.patternIndex.indexOf(subdir + '-' +  patternName);
@@ -109,7 +114,7 @@ module.exports = function(grunt) {
 					//add footer info before writing
 					var currentPatternFooter = mustache.render(patternlab.footer, currentPattern);
 
-					grunt.file.write('./public/patterns/' + flatPatternPath, patternlab.header + currentPattern.patternPartial + currentPatternFooter);
+					grunt.file.write(options.dest + '/patterns/' + flatPatternPath, patternlab.header + currentPattern.patternPartial + currentPatternFooter);
 					currentPattern.patternLink = flatPatternPath;
 
 					//add as a partial in case this is referenced later.  convert to syntax needed by existing patterns
@@ -149,7 +154,7 @@ module.exports = function(grunt) {
 					//add footer info before writing
 					var currentPatternFooter = mustache.render(patternlab.footer, currentPattern);
 
-					grunt.file.write('./public/patterns/' + flatPatternPath, patternlab.header + currentPattern.patternPartial + currentPatternFooter);
+					grunt.file.write(options.dest + '/patterns/' + flatPatternPath, patternlab.header + currentPattern.patternPartial + currentPatternFooter);
 
 					currentPattern.patternLink = flatPatternPath;
 
@@ -162,12 +167,12 @@ module.exports = function(grunt) {
 		});
 
 		//build the styleguide
-		var styleguideTemplate = grunt.file.read('./source/_patternlab-files/styleguide.mustache');
+		var styleguideTemplate = grunt.file.read(options.src + '/_patternlab-files/styleguide.mustache');
 		var styleguideHtml = mustache.render(styleguideTemplate, {partials: patternlab.patterns});
-		grunt.file.write('./public/styleguide/html/styleguide.html', styleguideHtml);
+		grunt.file.write(options.dest + '/styleguide/html/styleguide.html', styleguideHtml);
 
 		//build the patternlab website
-		var patternlabSiteTemplate = grunt.file.read('./source/_patternlab-files/index.mustache');
+		var patternlabSiteTemplate = grunt.file.read(options.src + '/_patternlab-files/index.mustache');
 		
 		//loop through all patterns.  deciding to do this separate from the recursion, even at a performance hit, to attempt to separate the tasks of styleguide creation versus site menu creation
 		for(var i = 0; i < patternlab.patterns.length; i++){
@@ -324,23 +329,23 @@ module.exports = function(grunt) {
 
 		//the patternlab site requires a lot of partials to be rendered.
 		//patternNav
-		var patternNavTemplate = grunt.file.read('./source/_patternlab-files/partials/patternNav.mustache');
+		var patternNavTemplate = grunt.file.read(options.src + '/_patternlab-files/partials/patternNav.mustache');
 		var patternNavPartialHtml = mustache.render(patternNavTemplate, patternlab);
 
 		//ishControls
-		var ishControlsTemplate = grunt.file.read('./source/_patternlab-files/partials/ishControls.mustache');
+		var ishControlsTemplate = grunt.file.read(options.src + '/_patternlab-files/partials/ishControls.mustache');
 		var ishControlsPartialHtml = mustache.render(ishControlsTemplate);
 
 		//patternPaths
-		var patternPathsTemplate = grunt.file.read('./source/_patternlab-files/partials/patternPaths.mustache');
+		var patternPathsTemplate = grunt.file.read(options.src + '/_patternlab-files/partials/patternPaths.mustache');
 		var patternPathsPartialHtml = mustache.render(patternPathsTemplate, {'patternPaths': JSON.stringify(patternlab.patternPaths)});
 
 		//viewAllPaths
-		var viewAllPathsTemplate = grunt.file.read('./source/_patternlab-files/partials/viewAllPaths.mustache');
+		var viewAllPathsTemplate = grunt.file.read(options.src + '/_patternlab-files/partials/viewAllPaths.mustache');
 		var viewAllPathersPartialHtml = mustache.render(viewAllPathsTemplate, {'viewallpaths': JSON.stringify(patternlab.viewAllPaths)});
 
 		//websockets
-		var websocketsTemplate = grunt.file.read('./source/_patternlab-files/partials/websockets.mustache');
+		var websocketsTemplate = grunt.file.read(options.src + '/_patternlab-files/partials/websockets.mustache');
 		var config = grunt.file.readJSON('./config/config.json');
 		patternlab.contentsyncport = config.contentSyncPort;
 		patternlab.navsyncport = config.navSyncPort;
@@ -355,7 +360,7 @@ module.exports = function(grunt) {
 			'websockets': websocketsPartialHtml,
 			'viewAllPaths': viewAllPathersPartialHtml
 		});
-		grunt.file.write('./public/index.html', patternlabSiteHtml);
+		grunt.file.write(options.dest + '/index.html', patternlabSiteHtml);
 
 		//debug
 		var outputFilename = './patternlab.json';
