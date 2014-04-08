@@ -6,21 +6,10 @@ module.exports = function(grunt) {
 
     patternlab: {
       options: {
-        source: './source',
+        src: './source',
         dest: './public'
       }
     },
-
-		concat: {
-			options: {
-				stripBanners: true,
-				banner: '/* \n * <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %> \n * \n * <%= pkg.author %>, and the web community.\n * Licensed under the <%= pkg.license %> license. \n * \n * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. \n *\n */\n\n',
-			},
-			dist: {
-				src: './builder/patternlab.js',
-				dest: './builder/patternlab.js'
-			}
-		},
 
 		sync: {
 			main: {
@@ -34,20 +23,7 @@ module.exports = function(grunt) {
 				]
 			}
 		},
-
-		jshint: {
-			options: {
-				"curly": true,
-				"eqnull": true,
-				"eqeqeq": true,
-				"undef": true,
-				"forin": true,
-				//"unused": true,
-				"node": true
-			},
-			patternlab: ['Gruntfile.js', './builder/lib/patternlab.js']
-		},
-
+    
 		watch: {
 			mustache: {
 				files: ['source/_patterns/**/*.mustache'],
