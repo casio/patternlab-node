@@ -1,8 +1,7 @@
 module.exports = function(grunt) {
-
-	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
+
 		clean: ['./public/patterns'],
 
     patternlab: {
@@ -22,6 +21,7 @@ module.exports = function(grunt) {
 				dest: './builder/patternlab.js'
 			}
 		},
+
 		sync: {
 			main: {
 				files: [
@@ -34,6 +34,7 @@ module.exports = function(grunt) {
 				]
 			}
 		},
+
 		jshint: {
 			options: {
 				"curly": true,
@@ -46,11 +47,8 @@ module.exports = function(grunt) {
 			},
 			patternlab: ['Gruntfile.js', './builder/lib/patternlab.js']
 		},
+
 		watch: {
-			// scss: { //scss can be watched if you like
-			// 	files: ['source/css/**/*.scss', 'public/styleguide/css/*.scss'],
-			// 	tasks: ['default']
-			// },
 			mustache: {
 				files: ['source/_patterns/**/*.mustache'],
 				tasks: ['default'],
@@ -80,6 +78,7 @@ module.exports = function(grunt) {
         ]
       }
 		},
+
 		connect: {
 			options: {
         port: 9000,
@@ -93,6 +92,7 @@ module.exports = function(grunt) {
         }
       },
 		},
+
 		sass: {
 			build: {
 				options: {
@@ -105,14 +105,8 @@ module.exports = function(grunt) {
 					'./public/styleguide/css/styleguide.css': './public/styleguide/css/styleguide.scss'
 				}
 			}
-		},
-		qunit: {
-			all:{
-				options:{
-					urls: ['./test/tests.html']
-				}
-			}
 		}
+
 	});
 
 	// load all grunt tasks
