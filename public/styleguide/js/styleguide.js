@@ -449,9 +449,6 @@ function receiveIframeMessage(event) {
 			
 		}
 		
-		// for testing purposes
-		console.log(event.data.lineage);
-		
 		// reset the defaults
 		urlHandler.skipBack = false;
 		
