@@ -19,6 +19,7 @@ var wsc;
 var wscConnected = false;
 var dataPrevious = 0;
 var host = (window.location.host != "") ? window.location.host : "127.0.0.1";
+var wsHost = ((window.location.protocol === 'http://') ? 'ws:' :'wss:') + host.split(':')[0];
 
 // handle page updates from one browser to another
 function connectNavSync() {
@@ -26,7 +27,7 @@ function connectNavSync() {
 	if ('WebSocket' in window && window.WebSocket.CLOSING === 2) {
 		
 		var navSyncCopy = "Page Follow";
-		wsn = new WebSocket("ws://"+host+":"+navSyncPort+"/navsync");
+		wsn = new WebSocket(wsHost+":"+navSyncPort+"/navsync");
 		
 		// when trying to open a connection to WebSocket update the pattern lab nav bar
 		wsn.onopen = function (event) {
@@ -91,7 +92,7 @@ function connectContentSync() {
 		var dc = true;
 		var contentSyncCopy = "Auto-reload";
 		
-		wsc = new WebSocket("ws://"+host+":"+contentSyncPort+"/contentsync");
+		wsc = new WebSocket(wsHost+":"+contentSyncPort+"/contentsync");
 		
 		// when trying to open a connection to WebSocket update the pattern lab nav bar
 		wsc.onopen = function (event) {
