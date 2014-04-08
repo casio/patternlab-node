@@ -7,7 +7,8 @@ module.exports = function(grunt) {
     patternlab: {
       options: {
         src: './source',
-        dest: './public'
+        dest: './public',
+        assetRoot: '/source/_patternlab-files/styleguide'
       }
     },
 
@@ -63,8 +64,8 @@ module.exports = function(grunt) {
       },
       livereload: {
         options: {
-          open: true,
-          base: ['public']
+          // open: true,
+          base: ['.']
         }
       },
 		},

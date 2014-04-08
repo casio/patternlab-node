@@ -4,12 +4,13 @@
 	<title id="title">Pattern Lab</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width" />
-	<link rel="stylesheet" href="styleguide/css/styleguide.css" media="all" />
-	<link rel="stylesheet" href="styleguide/css/prism.css" media="all" />
+	<link rel="stylesheet" href="{{> assetRoot }}/css/styleguide.css" media="all" />
+	<link rel="stylesheet" href="{{> assetRoot }}/css/prism.css" media="all" />
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-	<script>window.jQuery || document.write('<script src="styleguide/js/jquery.js"><\/script>')</script>
+	<script>window.jQuery || document.write('<script src="{{> assetRoot }}/js/jquery.js"><\/script>')</script>
 </head>
-<body  id="patternlab-body">>
+<body id="patternlab-body">
+
 	<!--Style Guide Header-->
 	<header class="sg-header" role="banner">
 		<a href="#sg-nav-container" class="sg-nav-toggle">Menu</a>
@@ -32,15 +33,15 @@
 	</div>
 	<!--end iFrame-->
 	
-	<script src="styleguide/js/prism.js"></script>
-	<script src="styleguide/js/data-saver.js"></script>
+	<script src="{{> assetRoot }}/js/prism.js"></script>
+	<script src="{{> assetRoot }}/js/data-saver.js"></script>
 	{{> patternPaths }}
 	{{> viewAllPaths }}
-	<script src="styleguide/js/url-handler.js"></script>
+	<script src="{{> assetRoot }}/js/url-handler.js"></script>
 	{{> websockets }}
-	<script src="listeners/synclisteners.js"></script>
-	<script src="styleguide/js/styleguide.js"></script>
-	<!--<script src="styleguide/js/annotations-viewer.js "></script>-->
-	<!--<script src="styleguide/js/code-viewer.js "></script>-->
+	<script src="{{> assetRoot }}/js/synclisteners.js"></script>
+	<script src="{{> assetRoot }}/js/styleguide.js"></script>
+	<!--<script src="{{> assetRoot }}/js/annotations-viewer.js "></script>-->
+	<!--<script src="{{> assetRoot }}/js/code-viewer.js "></script>-->
 </body>
 </html>
