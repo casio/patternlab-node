@@ -14,7 +14,7 @@ module.exports = function(grunt) {
 				dest: './builder/patternlab.js'
 			}
 		},
-		copy: {
+		sync: {
 			main: {
 				files: [
 					{ expand: true, cwd: './source/js/', src: '*', dest: './public/js/'},
@@ -45,16 +45,17 @@ module.exports = function(grunt) {
 			// },
 			mustache: {
 				files: ['source/_patterns/**/*.mustache'],
-				tasks: ['default']
+				tasks: ['default'],
+				options: { livereload: '<%= connect.options.livereload %>', spawn: false }
 			},
 			data: {
 				files: ['source/_patterns/**/*.json', 'source/_data/*.json'],
 				tasks: ['default']
 			},
 			livereload: {
-        options: {
-          livereload: '<%= connect.options.livereload %>'
-        },
+        // options: {
+        //   livereload: '<%= connect.options.livereload %>'
+        // },
         files: [
           'public/index.html',
           'public/patterns/*/*.html',
@@ -67,15 +68,12 @@ module.exports = function(grunt) {
 			options: {
         port: 9000,
         livereload: 35729,
-        // Change this to '0.0.0.0' to access the server from outside
         hostname: 'localhost'
       },
       livereload: {
         options: {
           open: true,
-          base: [
-              'public'
-          ]
+          base: ['public']
         }
       },
 		},
@@ -108,7 +106,7 @@ module.exports = function(grunt) {
 	grunt.task.loadTasks('./builder/');
 
 	//if you choose to use scss, or any preprocessor, you can add it here
-	grunt.registerTask('default', ['clean', 'concat', 'patternlab', /*'sass',*/ 'copy']);
+  grunt.registerTask('default', ['patternlab', /*'sass',*/ 'sync']);
 
 	// serve the project
 	grunt.registerTask('serve', ['default', 'connect:livereload', 'watch']);
