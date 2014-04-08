@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.1.0 - 2014-01-21 
+ * patternlab-node - v0.1.0 - 2014-04-08 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -86,18 +86,18 @@ module.exports = function(grunt) {
 			//returns -1 if patterns does not exist, otherwise returns the index
 			//add the pattern array if first time, otherwise pull it up
 			if(patternIndex === -1){
-				grunt.log.ok('pattern not found, adding to array');
+				grunt.log.debug('pattern not found, adding to array');
 				var flatPatternName = subdir.replace(/\//g, '-') + '-' + patternName;
 				flatPatternName = flatPatternName.replace(/\//g, '-');
 				currentPattern = new oPattern(flatPatternName, subdir, filename, {});
 				currentPattern.patternName = patternName.substring(patternName.indexOf('-') + 1);
 
 				if(grunt.util._.str.include(filename, 'json')){
-					grunt.log.writeln('json file found first, so add it to the pattern and continuing');
+					grunt.log.debug('json file found first, so add it to the pattern and continuing');
 					currentPattern.data = grunt.file.readJSON(abspath);
 					//done
 				} else{
-					grunt.log.writeln('mustache file found, assume no data, so compile it right away');
+					grunt.log.debug('mustache file found, assume no data, so compile it right away');
 					currentPattern.template = grunt.file.read(abspath);
 
 					//render the pattern. pass partials object just in case.
@@ -133,7 +133,7 @@ module.exports = function(grunt) {
 			} else{
 				//if we get here, we can almost ensure we found the json first, so render the template and pass in the unique json
 				currentPattern = patternlab.patterns[patternIndex];
-				grunt.log.ok('pattern found, loaded');
+				grunt.log.debug('pattern found, loaded');
 				//determine if this file is data or pattern
 				if(grunt.util._.str.include(filename, 'mustache')){
 
@@ -141,7 +141,7 @@ module.exports = function(grunt) {
 
 					//render the pattern. pass partials object just in case.
 					currentPattern.patternPartial = mustache.render(currentPattern.template, currentPattern.data, patternlab.partials);
-					grunt.log.writeln('template compiled with data!');
+					grunt.log.debug('template compiled with data!');
 
 					//write the compiled template to the public patterns directory
 					flatPatternPath = currentPattern.name + '/' + currentPattern.name + '.html';
