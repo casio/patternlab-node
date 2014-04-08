@@ -19,7 +19,7 @@ var wsc;
 var wscConnected = false;
 var dataPrevious = 0;
 var host = (window.location.host != "") ? window.location.host : "127.0.0.1";
-var wsHost = ((window.location.protocol === 'http://') ? 'ws:' :'wss:') + host.split(':')[0];
+var wsHost = ((window.location.protocol === 'http:') ? 'ws://' :'wss://') + host.split(':')[0];
 
 // handle page updates from one browser to another
 function connectNavSync() {
