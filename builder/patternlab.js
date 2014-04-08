@@ -60,7 +60,7 @@ module.exports = function(grunt) {
 		var options = this.options({
 			src: './source',
 			dest: './public',
-			contentSyncPort: 8002
+			contentSyncPort: 8002,
 			navSyncPort: 8003,
 			ignoredExtensions: ["scss", "DS_Store", "less"],
 			ignoredFolders: ["scss"]
